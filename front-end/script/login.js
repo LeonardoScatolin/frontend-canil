@@ -5,14 +5,14 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    // Envia uma requisição POST para a rota /users do servidor
+    // Envia uma requisição POST para a rota /login (ou a rota correta para autenticação)
     try {
-        const response = await fetch('https://apicanil.duckdns.org/users', {
+        const response = await fetch('https://apicanil.duckdns.org/login', {  // Corrija a URL conforme sua API
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, senha: password }) // Enviando 'senha' corretamente
+            body: JSON.stringify({ email, senha: password }) // Envia 'senha' corretamente
         });
 
         const data = await response.json();
