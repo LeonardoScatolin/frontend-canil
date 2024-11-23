@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Animais</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/global.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- Título -->
+        <div class="row text-center mb-2">
+            <div class="col-md-12">
+                <h1 class="titulo">Animais para Adoção</h1>
+            </div>
+        </div>
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark mb-3">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="navbar-nav mx-auto">
+                        <a href="/home" class="btn btn-nav mx-2">Menu Principal</a>
+                        <a href="/animais" class="btn btn-nav mx-2">Animais</a>
+                        <a href="/veterinarios" class="btn btn-nav mx-2">Veterinário</a>
+                        <a href="/adotantes" class="btn btn-nav mx-2">Adotante</a>
+                        <a href="/adocoes" class="btn btn-nav mx-2">Adoção</a>
+                        <a href="/tratamentos" class="btn btn-nav mx-2">Tratamento</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Barra de pesquisa, filtro e botão "Novo Animal" -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-10 col-sm-8 col-md-6 col-lg-4 search-container">
+                <a href="reganimal.html"><button class="btn btn-novo-animal">+ Novo Animal</button></a>
+                <input type="text" class="form-control search-input" placeholder="Buscar animal...">
+                <button class="btn btn-novo-animal-verde" onclick="searchAnimals()">Buscar</button>
+            </div>
+            <!-- Substitua a div dos filtros atual por esta: -->
+            <div class="col-10 col-sm-8 col-md-6 col-lg-4 text-center mt-3">
+                <div class="filter-container">
+                    <div class="filter-buttons">
+                        <button class="btn-filter btn-filter-all" onclick="filterAnimals('')">
+                            <div class="btn-filter-content">
+                                <span class="btn-filter-icon">🐾</span>
+                                <span>Todos</span>
+                                <span class="filter-counter" id="total-counter">0</span>
+                            </div>
+                        </button>
+                        <button class="btn-filter btn-filter-available" onclick="filterAnimals('Disponível')">
+                            <div class="btn-filter-content">
+                                <span class="btn-filter-icon">🏠</span>
+                                <span>Disponível</span>
+                                <span class="filter-counter" id="available-counter">0</span>
+                            </div>
+                        </button>
+                        <button class="btn-filter btn-filter-adopted" onclick="filterAnimals('Adotado')">
+                            <div class="btn-filter-content">
+                                <span class="btn-filter-icon">❤️</span>
+                                <span>Adotado</span>
+                                <span class="filter-counter" id="adopted-counter">0</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de animais -->
+        <div class="row w-100">
+            <div class="col-md-12 mb-4 text-center">
+                <div class="row g-4 justify-content-center" id="animal-list">
+                    <!-- Os dados dos animais serão inseridos aqui via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação para Exclusão -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel" style="color: black;">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="color: black;">
+                    Tem certeza que deseja excluir este animal?
+                    Esta ação não pode ser desfeita.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="script/animais.js"></script>
+
+    <style>
+        /* Status tag styling */
+        .status-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        /* Filter buttons container */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        /* Common styles for all filter buttons */
+        .btn-filter {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-width: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Specific styles for each filter button */
+        .btn-filter-all {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--text-primary);
+        }
+
+        .btn-filter-available {
+            background: linear-gradient(135deg, var(--success) 0%, #68D391 100%);
+            color: var(--text-primary);
+        }
+
+        .btn-filter-adopted {
+            background: linear-gradient(135deg, var(--secondary) 0%, #4FD1C5 100%);
+            color: var(--text-primary);
+        }
+
+        /* Hover effects for filter buttons */
+        .btn-filter:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-filter:active {
+            transform: translateY(0);
+        }
+
+        /* Active state for filter buttons */
+        .btn-filter.active {
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            transform: translateY(1px);
+        }
+
+        /* Spacing for action buttons */
+        .btn-novo-animal,
+        .btn-novo-animal-verde {
+            margin: 0 8px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .filter-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            .btn-filter {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</body>
+<footer class="text-center mt-4">
+    <p>&copy; 2024 ONG Acolhimento de Animais. Todos os direitos reservados.</p>
+</footer>
+
+</html>

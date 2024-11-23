@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro do Tratamento</title>
+    <link rel="stylesheet" href="./styles/regglobal.css">
+</head>
+<body>
+    <div class="container">
+        <img src="img/TRATA.png" alt="Ícone de Cachorro" class="icon">
+        <div class="form">
+            <h2>Informações do <span class="highlight">Tratamento</span></h2>
+            <form id="form-tratamento">
+                <div class="form-group">
+                    <label>Quem Necessita</label>
+                    <select id="animal-select">
+                        <option value="">Selecionar</option>
+                        <!-- Animais serão carregados aqui -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Selecione o Veterinário</label>
+                    <select id="veterinario-select">
+                        <option value="">Selecionar</option>
+                        <!-- Veterinários serão carregados aqui -->
+                    </select>
+                </div>
+                <div class="form-group" id="especie-container" style="display: none;">
+                    <label>Espécie</label>
+                    <input type="text" id="especie" placeholder="Espécie" readonly>
+                </div>
+                <div class="form-group" id="raca-container" style="display: none;">
+                    <label>Raça</label>
+                    <input type="text" id="raca" placeholder="Raça" readonly>
+                </div>
+                <div class="form-group" id="sexo-container" style="display: none;">
+                    <label>Sexo</label>
+                    <input type="text" id="sexo" placeholder="Sexo" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Motivo</label>
+                    <input type="text" id="motivo" placeholder="Motivo">
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descreva o Tratamento Necessário</label>
+                    <textarea id="descricao" placeholder="Escreva aqui"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Data do tratamento</label>
+                    <input type="date" id="data-tratamento">
+                </div>
+                <div class="buttons">
+                    <a href="tratamentos.html" class="btn">Voltar</a>
+                    <button type="submit" class="btn">Finalizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script/edittratamento.js"></script>
+</body>
+</html>

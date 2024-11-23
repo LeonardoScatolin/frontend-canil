@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro do Usuário</title>
+    <link rel="stylesheet" href="./styles/regglobal.css">
+</head>
+<body>
+    <div class="container">
+        <img src="img/USUA.png" alt="Ícone de Cachorro" class="icon">
+        <div class="form">
+            <h2 id="formTitle">Informações do <span class="highlight">Usuário</span></h2>
+            <form id="userForm" autocomplete="off">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="nome" placeholder="Nome" required>
+                </div>
+                <div class="form-group">
+                    <label>CPF</label>
+                    <input type="text" id="cpf" placeholder="CPF" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="email" placeholder="E-mail" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefone</label>
+                    <input type="text" id="telefone" placeholder="Número de Telefone" required>
+                </div>
+                <div class="form-group">
+                    <label>Endereço</label>
+                    <input type="text" id="endereco" placeholder="Endereço" required>
+                </div>
+
+                <div class="buttons">
+                    <a href="usuarios.html" class="btn">Voltar</a>
+                    <button type="submit" class="btn" id="submitButton">Salvar Adotante</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script/regusuario.js"></script>
+</body>
+</html>

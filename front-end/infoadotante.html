@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Adoção</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/adotante.css">
+</head>
+<body>
+    <div class="container">
+        <img src="img/ADOTANTE.png" alt="Logo" class="logo">
+        
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            Alterações salvas com sucesso!
+        </div>
+
+        <form id="adocao-form">
+            <div class="section-title">Match de Adoção</div>
+
+            <div class="info-group">
+                <div class="info-item">
+                    <label for="adotante">Selecione o Adotante</label>
+                    <select id="adotante" required>
+                        <option value="">Selecionar adotante</option>
+                        <!-- Adotantes serão carregados aqui -->
+                    </select>
+                </div>
+
+                <div class="info-item">
+                    <label for="animal">Selecione o Animal</label>
+                    <select id="animal" required>
+                        <option value="">Selecionar animal</option>
+                        <!-- Animais serão carregados aqui -->
+                    </select>
+                </div>
+
+                <div class="info-item">
+                    <label for="data-adocao">Data da Adoção</label>
+                    <input type="date" id="data-adocao" required>
+                </div>
+            </div>
+
+            <div class="section-title">Informações do Adotante</div>
+
+            <div class="adopter-info">
+                <div class="info-group">
+                    <div class="info-item">
+                        <span class="label">Nome do Adotante:</span>
+                        <span class="value" id="adotante-nome">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Email:</span>
+                        <span class="value" id="adotante-email">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">CPF:</span>
+                        <span class="value" id="adotante-cpf">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="adocoes.html" class="btn btn-secondary">Voltar</a>
+                <button type="submit" class="btn btn-primary" id="submitButton">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="script/infoadotante.js"></script>
+</body>
+</html>

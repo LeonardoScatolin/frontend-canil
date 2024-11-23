@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Adoção</title>
+    <link rel="stylesheet" href="./styles/regglobal.css">
+</head>
+<body>
+    <div class="container">
+        <img src="img/ADOCAO.png" alt="Ícone de Adoção" class="icon">
+        <div class="form">
+            <h2><span class="highlight">Match de Adoção</span></h2>
+            <form id="adocaoForm" autocomplete="off">
+                <div class="form-group">
+                    <label>Selecione o Adotante</label>
+                    <select id="adotante" required>
+                        <option value="">Selecionar</option>
+                        <!-- Opções de adotantes serão carregadas via API -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Selecione o Animal</label>
+                    <select id="animal" required>
+                        <option value="">Selecionar</option>
+                        <!-- Opções de animais serão carregadas via API -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Data da Adoção</label>
+                    <input type="date" id="dataAdoacao" required />
+                </div>
+                <div class="buttons">
+                    <a href="adocoes.html" class="btn">Voltar</a>
+                    <button type="submit" class="btn">Finalizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script/regiadocoes.js"></script>
+
+</body>
+</html>

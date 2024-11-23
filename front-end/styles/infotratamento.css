@@ -1,0 +1,121 @@
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #001b35;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 850px;
+            background-color: #001f3f;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            color: #cce7ff;
+        }
+
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 50%;
+            padding-right: 20px;
+            border-right: 1px solid #00e0e0;
+        }
+
+        .icon {
+            width: 50px;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            color: #94c6e0;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .dog-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background-color: #022a50;
+        }
+
+        .info-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 45%;
+            color: #cce7ff;
+            border: 1px solid #00e0e0;
+            border-radius: 10px;
+            padding: 8px;
+            background-color: #022a50;
+            text-align: center;
+        }
+
+        .right-section {
+            width: 50%;
+            padding-left: 20px;
+        }
+
+        .treatment-info {
+            background-color: #022a50;
+            border: 1px solid #00e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .treatment-info ul {
+            color: #cce7ff;
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .treatment-info ul li {
+            margin-bottom: 10px;
+        }
+
+        .btn-conclude {
+            display: block;
+            width: 50%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #00b9c4;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-conclude:hover {
+            background-color: #008a95;
+            transform: scale(0.95);
+        }

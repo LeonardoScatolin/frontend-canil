@@ -1,0 +1,278 @@
+/* Configuração de variáveis e reset */
+:root {
+    --primary: #4C51BF;  /* Azul índigo profundo */
+    --primary-light: #7F9CF5;  /* Azul índigo claro */
+    --primary-dark: #2D3748;  /* Azul escuro */
+    --secondary: #38B2AC;  /* Verde água */
+    --accent: #FBD38D;  /* Amarelo suave */
+    --danger: #F56565;  /* Vermelho vibrante */
+    --success: #48BB78;  /* Verde esmeralda */
+    --background: #1A202C;  /* Fundo escuro */
+    --card-bg: #2D3748;  /* Cinza azulado escuro */
+    --text-primary: #F7FAFC;  /* Texto claro */
+    --text-secondary: #E2E8F0;  /* Texto secundário */
+    --text-light: #CBD5E0;  /* Texto claro suave */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.36);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.12);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.2), 0 4px 6px -2px rgba(0,0,0,0.15);
+    --gradient: linear-gradient(135deg, #4C51BF 0%, #7F9CF5 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Header e Navegação */
+.titulo {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center;
+    padding: 2rem 0;
+    letter-spacing: -0.025em;
+    position: relative;
+}
+
+.titulo::after {
+    content: '';
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%);
+    border-radius: 2px;
+}
+
+.navbar {
+    background: rgba(45, 55, 72, 0.95);  /* Cor escura com transparência */
+    box-shadow: var(--shadow-sm);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Cards de Adoção */
+.custom-card {
+    background: linear-gradient(145deg, #2D3748, #1A202C);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--primary-light));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(145deg, #2D3748, #2A4365);
+}
+
+.custom-card h4 {
+    color: var(--accent);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.custom-card p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Botões */
+.btn-custom,
+.btn-sair {
+    background-color: red;
+    padding: 0.75rem 2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Estilo específico para os botões do menu nav */
+.btn-nav {
+    background-color: var(--text-primary) !important;
+    color: var(--background) !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin: 5px !important;
+}
+
+.btn-nav:hover {
+    background-color: var(--text-secondary) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* Estilo para o botão Nova Adoção */
+.btn-novo-animal {
+    background-color: var(--text-primary) !important;
+    color: var(--background) !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-right: 10px !important;
+}
+
+.btn-novo-animal:hover {
+    background-color: var(--text-secondary) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* Estilo para o botão Buscar */
+.btn-novo-animal-verde {
+    background-color: var(--text-primary) !important;
+    color: var(--background) !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-left: 10px !important;
+}
+
+.btn-novo-animal-verde:hover {
+    background-color: var(--text-secondary) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* Ajuste da barra de busca para combinar com o tema */
+.search-input {
+    background-color: var(--text-primary) !important;
+    color: var(--background) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.search-input::placeholder {
+    color: var(--background) !important;
+    opacity: 0.7 !important;
+}
+
+.btn-custom {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+}
+
+.btn-sair {
+    background: linear-gradient(135deg, var(--danger) 0%, #FC8181 100%);
+}
+
+/* Área de Busca */
+.search-container {
+    background: rgba(45, 55, 72, 0.95);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 2rem auto;
+    width: 80%;
+}
+
+.search-input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: rgba(26, 32, 44, 0.8);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(127, 156, 245, 0.2);
+}
+
+.search-input::placeholder {
+    color: var(--text-light);
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(180deg, var(--primary-dark) 0%, #1A202C 100%);
+    color: var(--text-secondary);
+    padding: 2rem 0;
+    margin-top: 4rem;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* Glass Effect modificado para modo escuro */
+.glass-effect {
+    background: rgba(45, 55, 72, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}

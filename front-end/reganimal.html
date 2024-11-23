@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Animal</title>
+    <link rel="stylesheet" href="./styles/regglobal.css">
+</head>
+<body>
+    <div class="container">
+        <img src="img/LOGO.png" alt="Ícone de Cachorro" class="icon">
+        <div class="form">
+            <h2 id="formTitle">Criar Novo <span class="highlight">Animal</span></h2>
+            <form id="animalForm" autocomplete="off">
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" id="nome" placeholder="Nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Sexo</label>
+                    <select id="sexo" required>
+                        <option value="">Selecionar</option>
+                        <option value="Macho">Macho</option>
+                        <option value="Fêmea">Fêmea</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Espécie</label>
+                    <select id="species" onchange="updateBreedOptions()" required>
+                        <option value="">Selecionar</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="breed-group" style="display: none;">
+                    <label>Raça</label>
+                    <select id="breed" required>
+                        <option value="">Selecionar Raça</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="status" onchange="updateStatusOptions()" required>
+                        <option value="">Selecionar</option>
+                        <option value="Adotado">Adotado</option>
+                        <option value="Disponível">Disponível</option>
+                    </select>
+                </div>
+
+                <div class="buttons">
+                    <a href="animais.html" class="btn">Voltar</a>
+                    <button type="submit" class="btn" id="submitButton">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script/reganimal.js"></script>
+</body>
+</html>

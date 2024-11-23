@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #1A202C; /* Fundo escuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 550px;
+}
+
+.icon {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.form {
+    background-color: #2D3748; /* Fundo escuro dos cards */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #38B2AC; /* Verde água */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.highlight {
+    font-style: italic;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.form-group label {
+    color: #CBD5E0; /* Texto claro suave */
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #7F9CF5; /* Azul índigo claro */
+    border-radius: 8px;
+    background-color: #1A202C; /* Fundo escuro */
+    color: #F7FAFC; /* Texto claro */
+    transition: all 0.3s ease;
+}
+
+.form-group textarea {
+    height: 80px;
+    resize: none;
+    background-color: #2D3748; /* Fundo dos cards */
+    color: #E2E8F0; /* Texto secundário */
+    border: 1px solid #7F9CF5; /* Azul índigo claro */
+}
+
+.form-group textarea::placeholder {
+    color: #CBD5E0; /* Texto claro suave */
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn {
+    background-color: #7F9CF5; /* Azul índigo claro */
+    color: #1A202C; /* Fundo escuro */
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 50%;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #4C51BF; /* Azul índigo profundo */
+    transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+    h2 {
+        font-size: 20px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form {
+        padding: 20px;
+    }
+
+    .icon {
+        width: 60px;
+        margin-bottom: 15px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+}

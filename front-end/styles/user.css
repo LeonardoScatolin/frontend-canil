@@ -1,0 +1,169 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #001b35;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #001f3f;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+}
+
+.date {
+    font-size: 24px;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #00e0e0;
+}
+
+.pet-info, .adopter-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+    color: #94c6e0;
+    gap: 20px;
+}
+
+.pet-info img {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #00e0e0;
+}
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    margin: 15px 0; 
+    width: 100%;
+    max-width: 300px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; 
+}
+
+.label {
+    font-weight: bold;
+    color: #94c6e0;
+}
+
+.value {
+    background-color: #022a50;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px;
+    text-align: left;
+    color: #ffffff;
+}
+
+.row input[type="text"], .row select {
+    padding: 8px;
+    border: 1px solid #00e0e0;
+    border-radius: 10px;
+    background-color: #022a50;
+    color: white;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.row input[type="text"]:hover {
+    border-color: #00B2FF;
+    transform: scale(0.95);
+}
+
+.back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #00b9c4;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #008a95;
+    transform: scale(0.95);
+}
+
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .date {
+        font-size: 20px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .info-group {
+        width: 100%;
+    }
+
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .date {
+        font-size: 18px;
+    }
+
+    .back-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .logo {
+        width: 40px;
+        top: 10px;
+        left: 10px;
+    }
+}

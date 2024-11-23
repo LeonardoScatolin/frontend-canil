@@ -1,0 +1,63 @@
+body {
+    background-color: #1A202C; /* Fundo escuro */
+}
+
+.login-box {
+    background-color: #2D3748; /* Fundo do box */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 100%;
+}
+
+.dog-icon {
+    width: 150px;
+}
+
+h2 {
+    color: #48BB78; /* Verde esmeralda */
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #E2E8F0; /* Texto secundário */
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+p .highlight {
+    color: #F7FAFC; /* Texto claro */
+    font-weight: bold;
+}
+
+.input-field {
+    border: 1px solid #7F9CF5; /* Azul índigo claro */
+    background-color: #2A4365; /* Fundo escuro mais profundo */
+    color: #F7FAFC; /* Texto claro */
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.input-field::placeholder {
+    color: #CBD5E0; /* Texto claro suave */
+}
+
+.input-field:hover {
+    border-color: #7F9CF5; /* Azul índigo claro */
+    transform: scale(0.95); /* Ajuste leve no efeito */
+}
+
+.btn-custom {
+    background-color: #38B2AC; /* Verde água */
+    color: #F7FAFC; /* Texto claro */
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #2C7A7B; /* Verde água mais escuro */
+    border-color: #7F9CF5; /* Azul índigo claro */
+    transform: scale(0.95); /* Ajuste leve no efeito */
+}

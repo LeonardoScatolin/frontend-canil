@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro do Veterinário</title>
+    <link rel="stylesheet" href="./styles/regglobal.css">
+</head>
+<body>
+    <div class="container">
+        <img src="img/VETER.png" alt="Ícone de Veterinário" class="icon">
+        <div class="form">
+            <h2 id="formTitle">Informações do <span class="highlight">Veterinário</span></h2>
+            <form id="vetForm" autocomplete="off">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="nome" placeholder="Nome Completo" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefone</label>
+                    <input type="text" id="telefone" placeholder="Telefone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <label>CRMV</label>
+                    <input type="text" id="crmv" placeholder="CRMV" required>
+                </div>
+                <div class="buttons">
+                    <a href="veterinarios.html" class="btn">Voltar</a>
+                    <button type="submit" class="btn" id="submitButton">Salvar Veterinário</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script/regveterinario.js"></script>
+</body>
+</html>
