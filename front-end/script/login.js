@@ -8,7 +8,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     // Envia uma requisição POST para a rota /login (ou a rota correta para autenticação)
     try {
         const response = await fetch('https://apicanil.duckdns.org/users', {  // Corrija a URL conforme sua API
-            method: 'POST',
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
