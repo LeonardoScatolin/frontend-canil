@@ -25,7 +25,7 @@
                         <a href="home.html" class="btn btn-nav mx-2">Menu Principal</a>
                         <a href="animais.html" class="btn btn-nav mx-2">Animais</a>
                         <a href="veterinarios.html" class="btn btn-nav mx-2">Veterinário</a>
-                        <a href="usuarios.html" class="btn btn-nav mx-2">Adotante</a>
+                        <a href="usuarios.html" class="btn btn-nav mx-2 active">Adotante</a>
                         <a href="adocoes.html" class="btn btn-nav mx-2">Adoção</a>
                         <a href="tratamentos.html" class="btn btn-nav mx-2">Tratamento</a>
                     </div>
@@ -36,13 +36,32 @@
         <div class="row justify-content-center mb-4">
             <div class="col-10 col-sm-8 col-md-6 col-lg-4 search-container">
                 <a href="regusuario.html"><button class="btn btn-novo-animal">+ Novo Adotante</button></a>
-                <input type="text" id="searchInput" class="form-control search-input" placeholder="Buscar adotante...">
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar adotante...">
                 <button class="btn btn-novo-animal-verde" onclick="searchUsers()">Buscar</button>
             </div>
         </div>  
 
         <div class="row w-100" id="user-list">
             <!-- Lista de usuários será inserida aqui -->
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação para Exclusão -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel" style="color: black;">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="color: black;">
+                    Tem certeza que deseja excluir este adotante? Esta ação não pode ser desfeita.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
+                </div>
+            </div>
         </div>
     </div>
 

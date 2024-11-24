@@ -125,7 +125,7 @@ document.getElementById('animalForm').addEventListener('submit', async (event) =
 
         if (response.ok) {
             alert(animalId ? 'Animal atualizado com sucesso!' : 'Animal criado com sucesso!');
-            window.location.href = '/animais'; // Redireciona para a página de lista de animais
+            window.location.href = 'animais.html'; // Redireciona para a página de lista de animais
         } else {
             alert('Erro ao salvar os dados do animal.');
         }

@@ -28,7 +28,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <div class="navbar-nav mx-auto">
                         <a href="home.html" class="btn btn-nav mx-2">Menu Principal</a>
-                        <a href="animais.html" class="btn btn-nav mx-2">Animais</a>
+                        <a href="animais.html" class="btn btn-nav mx-2 active">Animais</a>
                         <a href="veterinarios.html" class="btn btn-nav mx-2">Veterinário</a>
                         <a href="usuarios.html" class="btn btn-nav mx-2">Adotante</a>
                         <a href="adocoes.html" class="btn btn-nav mx-2">Adoção</a>
@@ -40,9 +40,11 @@
 
         <!-- Barra de pesquisa, filtro e botão "Novo Animal" -->
         <div class="row justify-content-center mb-4">
-            <div class="col-10 col-sm-8 col-md-6 col-lg-4 search-container">
-                <a href="reganimal.html"><button class="btn btn-novo-animal">+ Novo Animal</button></a>
-                <input type="text" class="form-control search-input" placeholder="Buscar animal...">
+            <div class="search-container">
+                <a href="reganimal.html">
+                    <button class="btn btn-novo-animal">+ Novo Animal</button>
+                </a>
+                <input type="text" class="search-input" placeholder="Buscar animal...">
                 <button class="btn btn-novo-animal-verde" onclick="searchAnimals()">Buscar</button>
             </div>
             <!-- Substitua a div dos filtros atual por esta: -->

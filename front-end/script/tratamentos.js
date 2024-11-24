@@ -1,74 +1,85 @@
-let tratamentosData = []; // Variável para armazenar todos os tratamentos
+const API_URL = "https://apicanil.duckdns.org/consulta/";
+const tratamentosList = document.getElementById('tratamentos-list');
+let tratamentosData = [];
+let tratamentoIdToDelete = null;
 
-// Função para buscar e exibir os tratamentos
+// Carrega os tratamentos ao iniciar
 async function loadTratamentos() {
     try {
-        const response = await fetch("https://apicanil.duckdns.org/consulta/");
-        tratamentosData = await response.json(); // Salva todos os tratamentos
-
-        renderTratamentos(tratamentosData); // Exibe todos os tratamentos inicialmente
+        const response = await fetch(API_URL);
+        tratamentosData = await response.json();
+        renderTratamentos(tratamentosData);
     } catch (error) {
-        console.error('Erro ao carregar tratamentos:', error);
+        console.error("Erro ao carregar tratamentos:", error);
+        tratamentosList.innerHTML = '<p class="text-danger">Erro ao carregar os tratamentos. Tente novamente mais tarde.</p>';
     }
 }
 
-// Função para renderizar os tratamentos
+// Renderiza os tratamentos
 function renderTratamentos(tratamentos) {
-    const tratamentosList = document.getElementById('tratamentos-list');
-    tratamentosList.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
+    tratamentosList.innerHTML = "";
 
-    // Exibe os tratamentos na página
+    if (tratamentos.length === 0) {
+        tratamentosList.innerHTML = '<p class="text-center">Nenhum tratamento encontrado.</p>';
+        return;
+    }
+
     tratamentos.forEach(tratamento => {
-        const tratamentoCard = document.createElement('div');
-        tratamentoCard.classList.add('col-md-4', 'col-sm-6', 'col-12', 'text-center');
-        tratamentoCard.innerHTML = `
-            <div class="custom-card">
-                <h4>${tratamento.nome_animal}</h4>
-                <p>Veterinário: ${tratamento.nome_veterinario}</p>
-                <p>Data: ${new Date(tratamento.dataconsulta).toLocaleDateString()}</p>
-                <p>Motivo: ${tratamento.motivo}</p>
-                <p>Prescrição: ${tratamento.prescricao}</p>
-                <a href="edittratamento.html?id=${tratamento.idconsultas}" class="btn btn-custom mb-2">Editar</a>
-                <button class="btn btn-sair mb-2" onclick="deleteTratamento(${tratamento.idconsultas})">Excluir</button>
+        const tratamentoCard = `
+            <div class="col-md-4 col-sm-6 col-12 text-center">
+                <div class="custom-card">
+                    <h4>${tratamento.nome_animal}</h4>
+                    <p>Veterinário: ${tratamento.nome_veterinario}</p>
+                    <p>Data: ${new Date(tratamento.dataconsulta).toLocaleDateString()}</p>
+                    <p>Motivo: ${tratamento.motivo}</p>
+                    <p>Prescrição: ${tratamento.prescricao}</p>
+                    <a href="edittratamento.html?id=${tratamento.idconsultas}" class="btn btn-custom mb-2">Editar</a>
+                    <button class="btn btn-sair mb-2" onclick="openDeleteModal(${tratamento.idconsultas})">Excluir</button>
+                </div>
             </div>
         `;
-        tratamentosList.appendChild(tratamentoCard);
+        tratamentosList.innerHTML += tratamentoCard;
     });
 }
 
-// Função para excluir um tratamento
-async function deleteTratamento(id) {
-    const confirmDelete = confirm('Você tem certeza que deseja excluir este tratamento?');
-    if (confirmDelete) {
-        try {
-            const response = await fetch(`https://apicanil.duckdns.org/consulta/${id}`, {
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                alert('Tratamento excluído com sucesso!');
-                loadTratamentos(); // Recarrega a lista de tratamentos
-            } else {
-                alert('Erro ao excluir tratamento.');
-            }
-        } catch (error) {
-            console.error('Erro ao excluir tratamento:', error);
-            alert('Erro ao excluir tratamento.');
-        }
-    }
-}
-
-// Função para realizar a busca de tratamentos por nome do animal
+// Busca tratamentos por nome do animal
 function searchTratamentos() {
     const searchTerm = document.getElementById('search-input').value.toLowerCase();
     const filteredTratamentos = tratamentosData.filter(tratamento =>
-        tratamento.nome_animal.toLowerCase().includes(searchTerm) // Filtra pelo nome do animal
+        tratamento.nome_animal.toLowerCase().includes(searchTerm)
     );
-    renderTratamentos(filteredTratamentos); // Atualiza a lista de tratamentos com os resultados filtrados
+    renderTratamentos(filteredTratamentos);
 }
 
-// Adiciona o evento de busca ao clicar no botão
+// Abre o modal de confirmação para exclusão
+function openDeleteModal(id) {
+    tratamentoIdToDelete = id;
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
+}
+
+// Exclui o tratamento
+async function deleteTratamento() {
+    try {
+        const response = await fetch(`${API_URL}${tratamentoIdToDelete}`, { method: 'DELETE' });
+
+        if (response.ok) {
+            loadTratamentos();
+            const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+            deleteModal.hide();
+        } else {
+            alert("Erro ao excluir o tratamento.");
+        }
+    } catch (error) {
+        console.error("Erro ao excluir tratamento:", error);
+    }
+}
+
+// Adiciona evento ao botão de confirmação
+document.getElementById('confirmDeleteButton').addEventListener('click', deleteTratamento);
+
+// Evento de busca
 document.getElementById('search-button').addEventListener('click', searchTratamentos);
 
-// Carrega os tratamentos ao carregar a página
+// Inicia o carregamento
 loadTratamentos();

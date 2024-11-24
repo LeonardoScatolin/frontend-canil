@@ -1,20 +1,28 @@
-let veterinarians = []; // Variável para armazenar os veterinários
+const API_URL = "https://apicanil.duckdns.org/veterinario/";
+const vetListDiv = document.getElementById('vet-list');
+let veterinarians = [];
+let veterinarianIdToDelete = null;
 
-// Função para carregar a lista de veterinários
+// Busca os veterinários na API
 async function fetchVeterinarians() {
     try {
-        const response = await fetch("https://apicanil.duckdns.org/veterinario/");
+        const response = await fetch(API_URL);
         veterinarians = await response.json();
-        displayVeterinarians(veterinarians); // Exibe todos os veterinários ao carregar a página
+        renderVeterinarians(veterinarians);
     } catch (error) {
         console.error('Erro ao carregar os veterinários:', error);
+        vetListDiv.innerHTML = '<p class="text-danger text-center">Erro ao carregar os veterinários. Tente novamente mais tarde.</p>';
     }
 }
 
-// Função para exibir os veterinários
-function displayVeterinarians(vets) {
-    const vetListDiv = document.getElementById('vet-list');
-    vetListDiv.innerHTML = ''; // Limpa a lista antes de adicionar os veterinários
+// Renderiza a lista de veterinários
+function renderVeterinarians(vets) {
+    vetListDiv.innerHTML = '';
+
+    if (vets.length === 0) {
+        vetListDiv.innerHTML = '<p class="text-center">Nenhum veterinário encontrado.</p>';
+        return;
+    }
 
     vets.forEach(vet => {
         const vetCard = `
@@ -25,7 +33,7 @@ function displayVeterinarians(vets) {
                     <p>Telefone: ${vet.telefone}</p>
                     <p>CRMV: ${vet.crmv}</p>
                     <a href="regveterinario.html?id=${vet.idveterinario}" class="btn btn-custom mb-2">Editar</a>
-                    <a href="#" onclick="deleteVeterinarian(${vet.idveterinario})" class="btn btn-sair mb-2">Excluir</a>
+                    <button class="btn btn-sair mb-2" onclick="openDeleteModal(${vet.idveterinario})">Excluir</button>
                 </div>
             </div>
         `;
@@ -33,38 +41,44 @@ function displayVeterinarians(vets) {
     });
 }
 
-// Função para excluir um veterinário
-async function deleteVeterinarian(vetId) {
-    const confirmDelete = confirm("Tem certeza que deseja excluir este veterinário?");
-    if (confirmDelete) {
-        try {
-            const response = await fetch(`https://apicanil.duckdns.org/veterinario/${vetId}`, {
-                method: 'DELETE'
-            });
-            const data = await response.json();
-            if (response.ok) {
-                alert('Veterinário excluído com sucesso!');
-                fetchVeterinarians(); // Atualiza a lista de veterinários
-            } else {
-                alert('Erro ao excluir o veterinário.');
-            }
-        } catch (error) {
-            console.error('Erro ao excluir veterinário:', error);
+// Abre o modal de confirmação para exclusão
+function openDeleteModal(id) {
+    veterinarianIdToDelete = id;
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
+}
+
+// Exclui um veterinário
+async function deleteVeterinarian() {
+    try {
+        const response = await fetch(`${API_URL}/${veterinarianIdToDelete}`, { method: 'DELETE' });
+
+        if (response.ok) {
+            fetchVeterinarians(); // Atualiza a lista de veterinários
+            const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+            deleteModal.hide();
+        } else {
             alert('Erro ao excluir o veterinário.');
         }
+    } catch (error) {
+        console.error('Erro ao excluir veterinário:', error);
     }
 }
 
-// Função para buscar veterinários
+// Adiciona o evento de exclusão ao botão de confirmação
+document.getElementById('confirmDeleteButton').addEventListener('click', deleteVeterinarian);
+
+// Busca veterinários pelo nome ou outros atributos
 function searchVeterinarians() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const filteredVeterinarians = veterinarians.filter(vet => {
-        return vet.nome.toLowerCase().includes(searchTerm) ||
-            vet.email.toLowerCase().includes(searchTerm) ||
-            vet.telefone.toLowerCase().includes(searchTerm);
-    });
-    displayVeterinarians(filteredVeterinarians); // Exibe os veterinários filtrados
+    const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+    const filteredVets = veterinarians.filter(vet => 
+        vet.nome.toLowerCase().includes(searchInput) || 
+        vet.email.toLowerCase().includes(searchInput) || 
+        vet.telefone.toLowerCase().includes(searchInput)
+    );
+
+    renderVeterinarians(filteredVets);
 }
 
-// Carrega os veterinários ao carregar a página
+// Carrega os veterinários ao iniciar
 fetchVeterinarians();

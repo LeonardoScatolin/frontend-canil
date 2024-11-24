@@ -59,7 +59,7 @@ document.getElementById('userForm').addEventListener('submit', async (event) => 
 
         if (response.ok) {
             alert('Adotante salvo com sucesso!');
-            window.location.href = '/adotantes'; // Redireciona para a listagem
+            window.location.href = 'usuarios.html'; // Redireciona para a listagem
         } else {
             alert('Erro ao salvar adotante.');
         }

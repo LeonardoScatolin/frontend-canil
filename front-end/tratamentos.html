@@ -30,7 +30,7 @@
                         <a href="veterinarios.html" class="btn btn-nav mx-2">Veterinário</a>
                         <a href="usuarios.html" class="btn btn-nav mx-2">Adotante</a>
                         <a href="adocoes.html" class="btn btn-nav mx-2">Adoção</a>
-                        <a href="tratamentos.html" class="btn btn-nav mx-2">Tratamento</a>
+                        <a href="tratamentos.html" class="btn btn-nav mx-2 active">Tratamento</a>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
         <div class="row justify-content-center mb-4">
             <div class="col-10 col-sm-8 col-md-6 col-lg-4 search-container">
                 <a href="regtratamento.html"><button class="btn btn-novo-animal">+ Novo Tratamento</button></a>
-                <input type="text" class="form-control search-input" id="search-input" placeholder="Buscar por animal...">
+                <input type="text" class="search-input" id="search-input" placeholder="Buscar por animal...">
                 <button class="btn btn-novo-animal-verde" id="search-button">Buscar</button>
             </div>
         </div>  
@@ -48,6 +48,25 @@
             <!-- Lista de tratamentos será inserida aqui dinamicamente -->
         </main>
         
+    </div>
+
+    <!-- Modal de Confirmação para Exclusão -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel" style="color: black;">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="color: black;">
+                    Tem certeza que deseja excluir este tratamento? Esta ação não pode ser desfeita.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="script/tratamentos.js"></script>

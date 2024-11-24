@@ -1,10 +1,19 @@
-// Função para carregar a lista de adoções
+const API_URL = "https://apicanil.duckdns.org/adocoes/";
+const adocaoListDiv = document.getElementById('adocao-list');
+let adocaoIdToDelete = null;
+
+// Carrega a lista de adoções
 async function fetchAdocoes() {
     try {
-        const response = await fetch("https://apicanil.duckdns.org/adocoes/");
+        const response = await fetch(API_URL);
         const adocoes = await response.json();
-        const adocaoListDiv = document.getElementById('adocao-list');
+
         adocaoListDiv.innerHTML = ''; // Limpa a lista antes de adicionar as adoções
+
+        if (adocoes.length === 0) {
+            adocaoListDiv.innerHTML = '<p class="text-center">Nenhuma adoção encontrada no momento.</p>';
+            return;
+        }
 
         adocoes.forEach(adocao => {
             const adocaoCard = `
@@ -15,7 +24,7 @@ async function fetchAdocoes() {
                         <p><strong>Animal:</strong> ${adocao.nome_animal}</p>
                         <p><strong>Adotante:</strong> ${adocao.nome_adotante}</p>
                         <a href="infoadotante.html?id=${adocao.idadocoes}" class="btn btn-custom mb-2">Editar</a>
-                        <button class="btn btn-sair mb-2" onclick="deleteAdocao(${adocao.idadocoes})">Excluir</button>
+                        <button class="btn btn-sair mb-2" onclick="openDeleteAdocaoModal(${adocao.idadocoes})">Excluir</button>
                     </div>
                 </div>
             `;
@@ -23,74 +32,37 @@ async function fetchAdocoes() {
         });
     } catch (error) {
         console.error('Erro ao carregar as adoções:', error);
+        adocaoListDiv.innerHTML = '<p class="text-danger text-center">Erro ao carregar as adoções. Tente novamente mais tarde.</p>';
     }
 }
 
-// Função para excluir uma adoção
-async function deleteAdocao(adocaoId) {
-    const confirmDelete = confirm("Tem certeza que deseja excluir esta adoção?");
-    if (confirmDelete) {
-        try {
-            // Obtém os detalhes da adoção antes de excluí-la
-            const adocaoResponse = await fetch(`https://apicanil.duckdns.org/adocoes/${adocaoId}`);
-            const adocaoData = await adocaoResponse.json();
-            const animalId = adocaoData.id_animal; // Salva o id_animal antes da exclusão
+// Abre o modal de exclusão
+function openDeleteAdocaoModal(adocaoId) {
+    adocaoIdToDelete = adocaoId;
+    const deleteAdocaoModal = new bootstrap.Modal(document.getElementById('deleteAdocaoModal'));
+    deleteAdocaoModal.show();
+}
 
-            if (!animalId) {
-                alert("Erro: Não foi possível localizar o ID do animal associado a esta adoção.");
-                return;
-            }
+// Exclui a adoção
+async function deleteAdocao() {
+    try {
+        const response = await fetch(`${API_URL}${adocaoIdToDelete}`, { method: 'DELETE' });
 
-            // Exclui a adoção
-            const response = await fetch(`https://apicanil.duckdns.org/adocoes/${adocaoId}`, {
-                method: 'DELETE'
-            });
-
-            if (response.ok) {
-                // Atualiza o status do animal para "Disponível"
-                await updateAnimalStatusToAvailable(animalId);
-                alert('Adoção excluída com sucesso!');
-                fetchAdocoes(); // Atualiza a lista de adoções
-            } else {
-                alert('Erro ao excluir a adoção.');
-            }
-        } catch (error) {
-            console.error('Erro ao excluir adoção:', error);
+        if (response.ok) {
+            fetchAdocoes(); // Atualiza a lista de adoções
+            const deleteAdocaoModal = bootstrap.Modal.getInstance(document.getElementById('deleteAdocaoModal'));
+            deleteAdocaoModal.hide();
+        } else {
             alert('Erro ao excluir a adoção.');
         }
-    }
-}
-
-// Função para atualizar o status do animal para "Disponível"
-async function updateAnimalStatusToAvailable(animalId) {
-    try {
-        // Faz o fetch do animal atual para manter os dados existentes
-        const response = await fetch(`https://apicanil.duckdns.org/animal/${animalId}`);
-        if (!response.ok) {
-            alert("Erro: Não foi possível encontrar o animal para atualizar o status.");
-            return;
-        }
-
-        const animalData = await response.json();
-
-        // Atualiza o status para "Disponível"
-        animalData.status = "Disponível";
-
-        // Envia a atualização para a API
-        const updateResponse = await fetch(`https://apicanil.duckdns.org/animal/${animalId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(animalData)
-        });
-
-        if (!updateResponse.ok) {
-            alert("Erro: Não foi possível atualizar o status do animal.");
-        }
     } catch (error) {
-        console.error('Erro ao atualizar o status do animal:', error);
-        alert('Erro ao atualizar o status do animal.');
+        console.error('Erro ao excluir a adoção:', error);
+        alert('Erro ao excluir a adoção. Tente novamente mais tarde.');
     }
 }
 
-// Carrega as adoções ao carregar a página
+// Adiciona o evento de exclusão ao botão de confirmação do modal
+document.getElementById('confirmDeleteAdocaoButton').addEventListener('click', deleteAdocao);
+
+// Carrega as adoções ao iniciar
 fetchAdocoes();

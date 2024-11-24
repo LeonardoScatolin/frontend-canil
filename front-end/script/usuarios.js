@@ -1,20 +1,28 @@
-let users = []; // Variável para armazenar os adotantes
+const API_URL = "https://apicanil.duckdns.org/adotante/";
+let users = [];
+let userIdToDelete = null;
 
 // Função para carregar a lista de adotantes
 async function fetchAdotantes() {
     try {
-        const response = await fetch("https://apicanil.duckdns.org/adotante/");
+        const response = await fetch(API_URL);
         users = await response.json();
         displayUsers(users); // Exibe todos os adotantes ao carregar a página
     } catch (error) {
-        console.error('Erro ao carregar os adotantes:', error);
+        console.error("Erro ao carregar os adotantes:", error);
+        document.getElementById("user-list").innerHTML = '<p class="text-danger">Erro ao carregar os adotantes. Tente novamente mais tarde.</p>';
     }
 }
 
 // Função para exibir os adotantes
 function displayUsers(adotantes) {
-    const userListDiv = document.getElementById('user-list');
-    userListDiv.innerHTML = ''; // Limpa a lista antes de adicionar os usuários
+    const userListDiv = document.getElementById("user-list");
+    userListDiv.innerHTML = "";
+
+    if (adotantes.length === 0) {
+        userListDiv.innerHTML = '<p class="text-center">Nenhum adotante encontrado.</p>';
+        return;
+    }
 
     adotantes.forEach(user => {
         const userCard = `
@@ -26,7 +34,7 @@ function displayUsers(adotantes) {
                     <p>CPF: ${user.cpf}</p>
                     <p>Endereço: ${user.endereco}</p>
                     <a href="regusuario.html?id=${user.idadotante}" class="btn btn-custom mb-2">Editar</a>
-                    <a href="#" onclick="deleteUser(${user.idadotante})" class="btn btn-sair mb-2">Excluir</a>
+                    <button class="btn btn-sair mb-2" onclick="openDeleteModal(${user.idadotante})">Excluir</button>
                 </div>
             </div>
         `;
@@ -34,41 +42,43 @@ function displayUsers(adotantes) {
     });
 }
 
+// Função para abrir o modal de exclusão
+function openDeleteModal(id) {
+    userIdToDelete = id;
+    const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+    deleteModal.show();
+}
+
 // Função para excluir um adotante
-async function deleteUser(userId) {
-    const confirmDelete = confirm("Tem certeza que deseja excluir este adotante?");
-    if (confirmDelete) {
-        try {
-            const response = await fetch(`https://apicanil.duckdns.org/adotante/${userId}`, {
-                method: 'DELETE'
-            });
-            const data = await response.json(); // Recebe a resposta da API
-            console.log(data); // Verifica a resposta da API
-            if (response.ok) {
-                alert('Adotante excluído com sucesso!');
-                fetchAdotantes(); // Atualiza a lista de adotantes
-            } else {
-                alert('Erro ao excluir o adotante.');
-            }
-        } catch (error) {
-            console.error('Erro ao excluir adotante:', error);
-            alert('Erro ao excluir o adotante.');
+async function deleteUser() {
+    try {
+        const response = await fetch(`${API_URL}${userIdToDelete}`, { method: "DELETE" });
+
+        if (response.ok) {
+            fetchAdotantes();
+            const deleteModal = bootstrap.Modal.getInstance(document.getElementById("deleteModal"));
+            deleteModal.hide();
+        } else {
+            alert("Erro ao excluir o adotante.");
         }
+    } catch (error) {
+        console.error("Erro ao excluir adotante:", error);
     }
 }
 
+// Adiciona o evento de exclusão ao botão de confirmação
+document.getElementById("confirmDeleteButton").addEventListener("click", deleteUser);
+
 // Função para buscar adotantes
 function searchUsers() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const filteredUsers = users.filter(user => {
-        return (
-            user.nome.toLowerCase().includes(searchTerm) ||
-            user.email.toLowerCase().includes(searchTerm) ||
-            user.cpf.includes(searchTerm) // Filtro por CPF também
-        );
-    });
-    displayUsers(filteredUsers); // Exibe os adotantes filtrados
+    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+    const filteredUsers = users.filter(user =>
+        user.nome.toLowerCase().includes(searchTerm) ||
+        user.email.toLowerCase().includes(searchTerm) ||
+        user.cpf.includes(searchTerm)
+    );
+    displayUsers(filteredUsers);
 }
 
-// Carrega os adotantes ao carregar a página
+// Carrega os adotantes ao iniciar
 fetchAdotantes();

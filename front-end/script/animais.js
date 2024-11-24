@@ -99,7 +99,6 @@ async function deleteAnimal() {
         const response = await fetch(`${API_URL}/${animalIdToDelete}`, { method: 'DELETE' });
 
         if (response.ok) {
-            alert('Animal excluído com sucesso!');
             fetchAnimals();
             const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
             deleteModal.hide();
