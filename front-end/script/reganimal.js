@@ -1,10 +1,10 @@
 // URL da API para obter as espécies, raças e criar/editar o animal
-const API_URL = "https://apicanil.duckdns.org/tipo"; // URL para buscar espécies
-const ANIMAL_API_URL = "https://apicanil.duckdns.org/animal"; // URL para registrar ou editar o animal
+const API_URL = "https://apicanil.duckdns.org/tipo";
+const ANIMAL_API_URL = "https://apicanil.duckdns.org/animal";
 const URL_PARAMS = new URLSearchParams(window.location.search);
-const animalId = URL_PARAMS.get('id'); // Obtém o ID do animal pela URL
+const animalId = URL_PARAMS.get('id');
 
-// Função para carregar as espécies e raças do banco de dados
+// Função para carregar as espécies do banco de dados
 async function fetchSpecies() {
     try {
         const response = await fetch(API_URL);
@@ -14,20 +14,69 @@ async function fetchSpecies() {
         // Limpa as opções de espécies
         speciesSelect.innerHTML = `<option value="">Selecionar</option>`;
 
-        // Preenche o select de espécies com base nos dados da API
-        data.forEach(item => {
-            speciesSelect.innerHTML += `<option value="${item.idtipo}">${item.tipo}</option>`;
+        // Filtra e adiciona apenas Gato e Cachorro
+        const allowedSpecies = ['Gato', 'Cachorro'];
+        const uniqueSpecies = [...new Set(data
+            .filter(item => allowedSpecies.includes(item.tipo))
+            .map(item => item.tipo)
+        )];
+
+        // Preenche o select de espécies com Gato e Cachorro
+        uniqueSpecies.forEach(species => {
+            speciesSelect.innerHTML += `<option value="${species}">${species}</option>`;
         });
 
         // Salva o mapa de espécies com o ID para uso posterior
         window.speciesData = data;
+
+        // Adiciona event listener para atualizar raças quando a espécie mudar
+        speciesSelect.addEventListener('change', updateBreedOptions);
     } catch (error) {
-        console.error('Erro ao carregar as espécies e raças:', error);
+        console.error('Erro ao carregar as espécies:', error);
+        alert('Não foi possível carregar as espécies. Tente novamente mais tarde.');
     }
 }
 
-// Função para carregar os dados do animal que será editado
+// Função para atualizar as opções de raça com base na espécie selecionada
+async function updateBreedOptions() {
+    const speciesSelect = document.getElementById('species');
+    const selectedSpecies = speciesSelect.value;
+    const breedSelect = document.getElementById('breed');
+    const breedGroup = document.getElementById('breed-group');
+
+    // Limpa o select de raças
+    breedSelect.innerHTML = `<option value="">Selecionar Raça</option>`;
+
+    // Se houver uma espécie selecionada, carrega as raças correspondentes do banco
+    if (selectedSpecies && window.speciesData) {
+        // Filtra as raças baseado na espécie selecionada
+        const filteredBreeds = window.speciesData
+            .filter(item => item.tipo === selectedSpecies)
+            .map(item => item.raca);
+
+        // Remove duplicatas de raças
+        const uniqueBreeds = [...new Set(filteredBreeds)];
+
+        if (uniqueBreeds.length > 0) {
+            breedGroup.style.display = 'block';
+            
+            // Preenche o select com as raças únicas da espécie selecionada
+            uniqueBreeds.forEach(breed => {
+                breedSelect.innerHTML += `<option value="${breed}">${breed}</option>`;
+            });
+        } else {
+            breedGroup.style.display = 'none';
+            alert(`Não há raças cadastradas para ${selectedSpecies}.`);
+        }
+    } else {
+        breedGroup.style.display = 'none';
+    }
+}
+
+// Função para buscar e preencher dados do animal para edição
 async function fetchAnimalData() {
+    if (!animalId) return;
+
     try {
         const response = await fetch(`${ANIMAL_API_URL}/${animalId}`);
         const animal = await response.json();
@@ -40,103 +89,104 @@ async function fetchAnimalData() {
         // Preenche o formulário com os dados do animal
         document.getElementById('nome').value = animal.nome;
         document.getElementById('sexo').value = animal.sexo;
-        document.getElementById('species').value = animal.tipo_idtipo;
+        
+        // Encontra o tipo (espécie) correspondente ao ID
+        if (window.speciesData) {
+            const tipo = window.speciesData.find(item => item.idtipo === animal.tipo_idtipo)?.tipo;
+            const speciesSelect = document.getElementById('species');
+            speciesSelect.value = tipo;
+
+            // Dispara o evento de mudança para carregar as raças
+            speciesSelect.dispatchEvent(new Event('change'));
+        }
+        
         document.getElementById('status').value = animal.status;
 
-        // Carrega as raças dependendo da espécie
-        updateBreedOptions();
+        // Define a raça após o carregamento das opções
         setTimeout(() => {
             document.getElementById('breed').value = animal.raca;
-        }, 200); // Delay para garantir que as opções de raça sejam carregadas
+        }, 200);
 
-        // Atualiza a visibilidade do campo de disponibilidade
-        updateStatusOptions();
-        document.getElementById('formTitle').innerText = 'Editar Informações do Animal'; // Modifica o título do formulário
-        document.getElementById('submitButton').innerText = 'Salvar Alterações'; // Muda o texto do botão
+        // Atualiza o título e o botão para edição
+        document.getElementById('formTitle').innerText = 'Editar Informações do Animal';
+        document.getElementById('submitButton').innerText = 'Salvar Alterações';
     } catch (error) {
         console.error('Erro ao buscar dados do animal:', error);
+        alert('Não foi possível carregar os dados do animal. Tente novamente.');
     }
 }
-
-// Função para atualizar as opções de raça com base na espécie selecionada
-function updateBreedOptions() {
-    const speciesId = document.getElementById('species').value;
-    const breedSelect = document.getElementById('breed');
-    const breedGroup = document.getElementById('breed-group');
-
-    // Limpa o select de raças
-    breedSelect.innerHTML = `<option value="">Selecionar Raça</option>`;
-
-    // Se houver uma espécie selecionada, carrega as raças correspondentes
-    if (speciesId && window.speciesData) {
-        const selectedSpecies = window.speciesData.find(species => species.idtipo == speciesId);
-
-        if (selectedSpecies && selectedSpecies.raca) {
-            breedGroup.style.display = 'block';
-            // Preenche o select com as raças da espécie selecionada
-            breedSelect.innerHTML += `<option value="${selectedSpecies.raca}">${selectedSpecies.raca}</option>`;
-        }
-    } else {
-        breedGroup.style.display = 'none';
-    }
-}
-
-
 
 // Função para enviar o formulário (criar ou editar)
-document.getElementById('animalForm').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Evita o envio padrão do formulário
+function setupFormSubmission() {
+    const animalForm = document.getElementById('animalForm');
+    animalForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    const nome = document.getElementById('nome').value;
-    const sexo = document.getElementById('sexo').value;
-    const speciesId = document.getElementById('species').value;
-    const breed = document.getElementById('breed').value;
-    const status = document.getElementById('status').value;
+        const nome = document.getElementById('nome').value;
+        const sexo = document.getElementById('sexo').value;
+        const species = document.getElementById('species').value;
+        const breed = document.getElementById('breed').value;
+        const status = document.getElementById('status').value;
 
-    const animalData = {
-        nome,
-        sexo,
-        status,
-        tipo_idtipo: speciesId, // Envia o ID do tipo como chave estrangeira
-        raca: breed, // Raça (opcional)
-    };
+        // Encontrar o ID do tipo correspondente à espécie selecionada
+        const tipoId = window.speciesData.find(item => item.tipo === species)?.idtipo;
 
-    try {
-        let response;
-        if (animalId) {
-            // Se o ID do animal estiver presente, faz a requisição de edição (PUT)
-            response = await fetch(`${ANIMAL_API_URL}/${animalId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(animalData)
-            });
-        } else {
-            // Caso contrário, faz a requisição de criação (POST)
-            response = await fetch(ANIMAL_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(animalData)
-            });
+        if (!tipoId) {
+            alert('Erro: Não foi possível encontrar o ID da espécie.');
+            return;
         }
 
-        if (response.ok) {
-            alert(animalId ? 'Animal atualizado com sucesso!' : 'Animal criado com sucesso!');
-            window.location.href = 'animais.html'; // Redireciona para a página de lista de animais
-        } else {
-            alert('Erro ao salvar os dados do animal.');
-        }
-    } catch (error) {
-        console.error('Erro ao salvar animal:', error);
-        alert('Erro ao salvar os dados do animal.');
-    }
-});
+        const animalData = {
+            nome,
+            sexo,
+            status,
+            tipo_idtipo: tipoId,
+            raca: breed,
+        };
 
-// Inicializa as funções
-fetchSpecies(); // Carrega as espécies ao iniciar
-if (animalId) {
-    fetchAnimalData(); // Se for edição, preenche o formulário com os dados
+        try {
+            let response;
+            if (animalId) {
+                // Requisição de edição (PUT)
+                response = await fetch(`${ANIMAL_API_URL}/${animalId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(animalData)
+                });
+            } else {
+                // Requisição de criação (POST)
+                response = await fetch(ANIMAL_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(animalData)
+                });
+            }
+
+            if (response.ok) {
+                alert(animalId ? 'Animal atualizado com sucesso!' : 'Animal criado com sucesso!');
+                window.location.href = 'animais.html';
+            } else {
+                alert('Erro ao salvar os dados do animal.');
+            }
+        } catch (error) {
+            console.error('Erro ao salvar animal:', error);
+            alert('Erro ao salvar os dados do animal. Verifique sua conexão.');
+        }
+    });
 }
+
+// Inicialização das funções
+async function initializeForm() {
+    await fetchSpecies();
+    if (animalId) {
+        fetchAnimalData();
+    }
+    setupFormSubmission();
+}
+
+// Chama a função de inicialização quando o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', initializeForm);
